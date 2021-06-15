@@ -1,0 +1,41 @@
+* {
+  margin: 0px;
+  font-family: "Raleway", sans-serif;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  border: 0px;
+}
+
+button:focus {
+  outline: none;
+}
+
+#root {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+a:link {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+a:active {
+  color: white;
+  text-decoration: none;
+}
