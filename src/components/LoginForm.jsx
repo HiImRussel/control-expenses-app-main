@@ -1,12 +1,14 @@
 import { useState, useContext } from "react";
 import "../css/Login.css";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { AppContext } from "../context/MainContext";
+import Register from "./Register";
 
 const LoginForm = () => {
   const [loginValue, setLoginValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [loginError, setLoginError] = useState(false);
+  const [isRegisterVisable, setIsRegisterVisable] = useState(false);
 
   const { loginData, handleChangeLoginData } = useContext(AppContext);
 
@@ -21,6 +23,12 @@ const LoginForm = () => {
       default:
         return null;
     }
+  };
+
+  const clearForm = () => {
+    setLoginValue("");
+    setPasswordValue("");
+    setLoginError(false);
   };
 
   const handleSubmitLogin = (e) => {
@@ -49,39 +57,49 @@ const LoginForm = () => {
       .catch((error) => console.log("error: ", error));
   };
 
+  const handleRegisterVisibility = () => {
+    setIsRegisterVisable((prevValue) => !prevValue);
+  };
+
   return (
-    <div className="form-bg">
-      <form id="login-form" onSubmit={handleSubmitLogin}>
-        <h2>Login</h2>
-        <input
-          type="text"
-          name="login"
-          value={loginValue}
-          onChange={handleChangeInput}
-          placeholder="Login"
+    <>
+      <div className="form-bg">
+        <form id="login-form" onSubmit={handleSubmitLogin}>
+          <h2>Login</h2>
+          <input
+            type="text"
+            name="login"
+            value={loginValue}
+            onChange={handleChangeInput}
+            placeholder="Login"
+          />
+          <br />
+          <input
+            type="password"
+            name="password"
+            value={passwordValue}
+            onChange={handleChangeInput}
+            placeholder="Password"
+          />
+          <br />
+          {loginError && (
+            <p style={{ color: "red", marginTop: "20px" }}>
+              Nieprawidłowe dane logowania!
+            </p>
+          )}
+          <button>Login</button>
+          <p>or</p>
+          <p onClick={handleRegisterVisibility}>register</p>
+        </form>
+        {loginData.logged && <Redirect to="/panel" />}
+      </div>
+      {isRegisterVisable && (
+        <Register
+          registerVisibility={handleRegisterVisibility}
+          clearForm={clearForm}
         />
-        <br />
-        <input
-          type="password"
-          name="password"
-          value={passwordValue}
-          onChange={handleChangeInput}
-          placeholder="Password"
-        />
-        <br />
-        {loginError && (
-          <p style={{ color: "red", marginTop: "20px" }}>
-            Nieprawidłowe dane logowania!
-          </p>
-        )}
-        <button>Login</button>
-        <p>or</p>
-        <Link to="/register">
-          <p>register</p>
-        </Link>
-      </form>
-      {loginData.logged && <Redirect to="/panel" />}
-    </div>
+      )}
+    </>
   );
 };
 
