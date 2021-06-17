@@ -4,9 +4,10 @@ import Message from "./Message";
 
 import "../css/Limits.css";
 
-const Limits = () => {
+const Limits = ({ handler }) => {
   const { loginData, limit, setLimit } = useContext(AppContext);
   const [isMessageVisable, setIsMessageVisable] = useState(false);
+  const [newLimitValue, setNewLimitValue] = useState("");
   const [message, setMessage] = useState("");
 
   const handleDeleteLimit = () => {
@@ -41,6 +42,34 @@ const Limits = () => {
     }
   };
 
+  const handleSetLimit = () => {
+    if (newLimitValue.length > 0) {
+      fetch("http://127.0.0.1:3030/setLimit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: loginData.userId, value: newLimitValue }),
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            throw new Error("error");
+          }
+        })
+        .then((data) => {
+          if (data.status === "ok") {
+            setMessage("Succesfull seted new limit!");
+            setLimit({ isLimitSet: true, limitValue: newLimitValue });
+          } else {
+            setMessage("Something went wrong on adding new limit!");
+          }
+          setIsMessageVisable(true);
+        });
+    }
+  };
+
   const handleCloseMessage = () => {
     document.getElementById("deleted").style.opacity = 0;
     document.getElementById("deleted").addEventListener("transitionend", () => {
@@ -49,9 +78,22 @@ const Limits = () => {
     });
   };
 
+  const handleChangeInput = (e) => {
+    switch (e.target.name) {
+      case "newLimit":
+        setNewLimitValue(e.target.value);
+        break;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <section id="limits">
+        <button id="closeLimits" onClick={handler}>
+          X
+        </button>
         <h1>Limits</h1>
         <div className="limitBoxes">
           <div className="limitBox">
@@ -352,8 +394,14 @@ const Limits = () => {
                 </clipPath>
               </defs>
             </svg>
-            <input type="number" placeholder="000$" />
-            <button>SET</button>
+            <input
+              type="number"
+              placeholder="000$"
+              value={newLimitValue}
+              name="newLimit"
+              onChange={handleChangeInput}
+            />
+            <button onClick={handleSetLimit}>SET</button>
           </div>
           <div className="limitBox">
             <p>Set target</p>
@@ -587,7 +635,7 @@ const Limits = () => {
               </defs>
             </svg>
             <input type="number" placeholder="000$" />
-            <button>SET</button>
+            <button>ADD</button>
           </div>
         </div>
         <button className="deleteButton" onClick={handleDeleteLimit}>

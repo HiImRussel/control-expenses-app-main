@@ -12,6 +12,13 @@ const MainPanel = () => {
   const handleShowLimits = () => {
     setIsLimitsVisable(true);
   };
+
+  const closeLimits = () => {
+    document.getElementById("limits").style.opacity = 0;
+    document.getElementById("limits").addEventListener("transitionend", () => {
+      setIsLimitsVisable(false);
+    });
+  };
   return (
     <>
       {loginData.logged || <Redirect to="/" />}
@@ -306,7 +313,7 @@ const MainPanel = () => {
           </div>
         </div>
       </section>
-      {isLimitsVisable && <Limits />}
+      {isLimitsVisable && <Limits handler={closeLimits} />}
     </>
   );
 };
