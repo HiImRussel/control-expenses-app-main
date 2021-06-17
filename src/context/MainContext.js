@@ -12,7 +12,10 @@ export const AppProvider = ({ children }) => {
   });
 
   //expenses
-  const [expenses, setExpenses] = useState({ status: "undefinied" });
+  const [expenses, setExpenses] = useState({
+    status: "undefinied",
+    expenses: [],
+  });
 
   const handleChangeExpenses = (data) => {
     setExpenses(data);

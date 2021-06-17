@@ -1,0 +1,5 @@
+.productList {
+  max-height: 40vh;
+  overflow-y: scroll;
+  width: 40vw;
+}

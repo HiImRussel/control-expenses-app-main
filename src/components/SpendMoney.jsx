@@ -2,11 +2,12 @@ import { useEffect, useContext, useState } from "react";
 import { AppContext } from "../context/MainContext";
 import Loading from "./Loading";
 import Message from "./Message";
+import ProductList from "./ProductList";
 
 import "../css/SpendMoney.css";
 
 const SpendMoney = ({ handler }) => {
-  const { loginData, limit, expenses, handleChangeExpenses } =
+  const { loginData, limit, setLimit, expenses, handleChangeExpenses } =
     useContext(AppContext);
   const [isLoadingVisable, setIsLoadingVisable] = useState(false);
 
@@ -71,6 +72,12 @@ const SpendMoney = ({ handler }) => {
     } else {
       if (limit.limitValue - limit.targetValue - cost.toString() > 0) {
         if (productName.length > 0 && category.length > 0 && cost.length > 0) {
+          const newProduct = {
+            name: productName,
+            category: category,
+            cost: cost,
+          };
+
           fetch("http://127.0.0.1:3030/addProduct", {
             method: "POST",
             headers: {
@@ -91,7 +98,31 @@ const SpendMoney = ({ handler }) => {
               }
             })
             .then((data) => {
-              console.log(data);
+              if (data.status === "ok") {
+                if (expenses.status === "0-product") {
+                  handleChangeExpenses((prevValue) => ({
+                    status: "downloaded",
+                    expenses: [...prevValue.expenses, newProduct],
+                  }));
+                }
+                if (expenses.status === "downloaded") {
+                  handleChangeExpenses((prevValue) => ({
+                    status: "downloaded",
+                    expenses: [...prevValue.expenses, newProduct],
+                  }));
+                }
+
+                setLimit((prevValue) => {
+                  return {
+                    isLimitSet: true,
+                    limitValue: prevValue.limitValue - parseFloat(cost),
+                    targetValue: prevValue.targetValue,
+                  };
+                });
+              } else {
+                setIsMessageVisable(true);
+                setMessage(data.message);
+              }
             })
             .catch((err) => console.log(err));
         } else {
@@ -174,7 +205,11 @@ const SpendMoney = ({ handler }) => {
         </div>
         <div className="right-panel">
           <h2>Last product bought</h2>
-          {expenses.status === "0-product" && <p>No product added yet</p>}
+          {expenses.status === "0-product" ? (
+            <p>No product added yet</p>
+          ) : (
+            <ProductList expenses={expenses.expenses} />
+          )}
         </div>
       </section>
       {isLoadingVisable && <Loading />}
