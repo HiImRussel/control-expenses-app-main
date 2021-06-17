@@ -7,8 +7,12 @@ import "../css/Limits.css";
 const Limits = ({ handler }) => {
   const { loginData, limit, setLimit } = useContext(AppContext);
   const [isMessageVisable, setIsMessageVisable] = useState(false);
-  const [newLimitValue, setNewLimitValue] = useState("");
   const [message, setMessage] = useState("");
+
+  //input values
+  const [newLimitValue, setNewLimitValue] = useState("");
+  const [newTargetValue, setNewTargetValue] = useState("");
+  const [newEditValue, setNewEditValue] = useState("");
 
   const handleDeleteLimit = () => {
     if (limit.isLimitSet) {
@@ -61,12 +65,85 @@ const Limits = ({ handler }) => {
         .then((data) => {
           if (data.status === "ok") {
             setMessage("Succesfull seted new limit!");
-            setLimit({ isLimitSet: true, limitValue: newLimitValue });
+            setLimit({
+              isLimitSet: true,
+              limitValue: parseFloat(newLimitValue),
+              targetValue: 0,
+            });
           } else {
             setMessage("Something went wrong on adding new limit!");
           }
           setIsMessageVisable(true);
         });
+    }
+  };
+
+  const handleSetTarget = () => {
+    if (newTargetValue.length > 0) {
+      fetch("http://127.0.0.1:3030/setTarget", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: loginData.userId, value: newTargetValue }),
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            throw new Error("error");
+          }
+        })
+        .then((data) => {
+          if (data.status === "ok") {
+            setLimit((prevValue) => ({
+              isLimitSet: true,
+              limitValue: prevValue.limitValue,
+              targetValue: parseFloat(newTargetValue),
+            }));
+            setMessage("Succesfull seted new target!");
+          } else {
+            setMessage("Something went wrong on adding new target!");
+          }
+          setIsMessageVisable(true);
+        })
+        .catch((err) => console.log("error: ", err));
+    }
+  };
+
+  const handleEditLimit = () => {
+    if (newEditValue.length > 0) {
+      fetch("http://127.0.0.1:3030/editLimit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: loginData.userId,
+          value: newEditValue,
+        }),
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            throw new Error("error");
+          }
+        })
+        .then((data) => {
+          if (data.status === "ok") {
+            setLimit((prevValue) => ({
+              isLimitSet: true,
+              limitValue: prevValue.limitValue + parseFloat(newEditValue),
+              targetValue: prevValue.targetValue,
+            }));
+            setMessage("Succesfull edited new target!");
+          } else {
+            setMessage("Something went wrong on edditing new target!");
+          }
+          setIsMessageVisable(true);
+        })
+        .catch((err) => console.log("error: ", err));
     }
   };
 
@@ -82,6 +159,12 @@ const Limits = ({ handler }) => {
     switch (e.target.name) {
       case "newLimit":
         setNewLimitValue(e.target.value);
+        break;
+      case "newTarget":
+        setNewTargetValue(e.target.value);
+        break;
+      case "editLimit":
+        setNewEditValue(e.target.value);
         break;
       default:
         return null;
@@ -533,8 +616,14 @@ const Limits = ({ handler }) => {
                 </clipPath>
               </defs>
             </svg>
-            <input type="number" placeholder="000$" />
-            <button>SET</button>
+            <input
+              type="number"
+              placeholder="000$"
+              value={newTargetValue}
+              onChange={handleChangeInput}
+              name="newTarget"
+            />
+            <button onClick={handleSetTarget}>SET</button>
           </div>
           <div className="limitBox">
             <p>Edit limit</p>
@@ -634,8 +723,14 @@ const Limits = ({ handler }) => {
                 </clipPath>
               </defs>
             </svg>
-            <input type="number" placeholder="000$" />
-            <button>ADD</button>
+            <input
+              type="number"
+              placeholder="000$"
+              value={newEditValue}
+              onChange={handleChangeInput}
+              name="editLimit"
+            />
+            <button onClick={handleEditLimit}>ADD</button>
           </div>
         </div>
         <button className="deleteButton" onClick={handleDeleteLimit}>

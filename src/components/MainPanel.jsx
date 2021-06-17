@@ -28,7 +28,7 @@ const MainPanel = () => {
           <p className="limit">
             Money left:{" "}
             <span style={{ color: "red", fontWeight: "bold" }}>
-              {limit.limitValue}$
+              {limit.limitValue - limit.targetValue}$
             </span>
           </p>
         )}

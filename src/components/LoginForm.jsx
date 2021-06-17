@@ -58,6 +58,7 @@ const LoginForm = () => {
             setLimit({
               isLimitSet: true,
               limitValue: data.limitValue,
+              targetValue: data.targetValue,
             });
           }
         } else {
