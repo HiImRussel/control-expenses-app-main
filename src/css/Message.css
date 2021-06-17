@@ -1,0 +1,28 @@
+#deleted {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.507);
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+  flex-direction: column;
+}
+
+#deleted button {
+  margin-top: 30px;
+  padding: 10px 40px;
+  background-color: #5feda9;
+  color: white;
+  font-weight: 600;
+  font-size: 1.5em;
+  border-radius: 50px;
+  cursor: pointer;
+}

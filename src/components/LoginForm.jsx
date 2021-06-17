@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import "../css/Login.css";
-import { Redirect } from "react-router-dom";
 import { AppContext } from "../context/MainContext";
 import Register from "./Register";
 
@@ -10,7 +9,7 @@ const LoginForm = () => {
   const [loginError, setLoginError] = useState(false);
   const [isRegisterVisable, setIsRegisterVisable] = useState(false);
 
-  const { loginData, handleChangeLoginData } = useContext(AppContext);
+  const { handleChangeLoginData, setLimit } = useContext(AppContext);
 
   const handleChangeInput = (e) => {
     switch (e.target.name) {
@@ -49,7 +48,18 @@ const LoginForm = () => {
       })
       .then((data) => {
         if (data.logged) {
-          handleChangeLoginData(data);
+          handleChangeLoginData({
+            logged: true,
+            userName: data.userName,
+            userId: data.userId,
+          });
+
+          if (data.isLimitSet) {
+            setLimit({
+              isLimitSet: true,
+              limitValue: data.limitValue,
+            });
+          }
         } else {
           setLoginError(true);
         }
@@ -91,7 +101,6 @@ const LoginForm = () => {
           <p>or</p>
           <p onClick={handleRegisterVisibility}>register</p>
         </form>
-        {loginData.logged && <Redirect to="/panel" />}
       </div>
       {isRegisterVisable && (
         <Register

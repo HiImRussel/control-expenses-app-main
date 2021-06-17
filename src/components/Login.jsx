@@ -1,13 +1,16 @@
 import LoginForm from "./LoginForm";
 import "../css/Login.css";
+import { Redirect } from "react-router";
+import { useContext } from "react";
+import { AppContext } from "../context/MainContext";
 
 const Login = () => {
+  const { loginData } = useContext(AppContext);
   return (
     <>
+      {loginData.logged && <Redirect to="/panel" />}
       <section id="LoginSection">
-        <section className="Login-Form">
-          <LoginForm />
-        </section>
+        <section className="Login-Form">{<LoginForm />}</section>
         <div className="login-banner">
           <h1>Start saving money with us!</h1>
           <svg

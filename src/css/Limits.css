@@ -1,0 +1,104 @@
+#limits {
+  position: absolute;
+  top: 0px;
+  background-image: url("../Imgs/registerBg.jpg");
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 5;
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+#limits h1 {
+  font-size: 2.4em;
+}
+
+.deleteButton {
+  background-color: #fe646f;
+  color: white;
+  padding: 10px 60px;
+  font-size: 1.5em;
+  border-radius: 50px;
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.deleteButton:hover {
+  transform: scale(1.1);
+}
+
+.limitBoxes {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.limitBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  color: rgb(173, 173, 173);
+  padding: 10px 50px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 21px 7px rgba(0, 0, 0, 0.25);
+}
+
+#limits h1 {
+  margin-top: 20px;
+}
+
+#limits button {
+  margin-bottom: 20px;
+}
+
+.limitBox p {
+  font-size: 1.6em;
+}
+
+.limitBox input {
+  border: 0px;
+  width: 50%;
+  border-bottom: 2px solid #5feda9;
+}
+
+.limitBox input::placeholder {
+  text-align: center;
+  font-size: 1.4em;
+}
+
+.limitBox button {
+  background-color: #5feda9;
+  padding: 10px 50px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.7em;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: all 0.2s ease-in-out;
+}
+
+.limitBox button:hover {
+  transform: scale(1.1);
+}
+
+.limitBox p,
+.limitBox svg,
+.limitBox input {
+  margin-bottom: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

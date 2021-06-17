@@ -7,7 +7,6 @@ const Register = ({ registerVisibility, clearForm }) => {
   const [userNameValue, setUserNameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [registerError, setRegisterError] = useState(false);
-  const [isRegistered, setIsRegistered] = useState();
 
   const handleChange = (e) => {
     switch (e.target.name) {
@@ -52,7 +51,6 @@ const Register = ({ registerVisibility, clearForm }) => {
         })
         .then((data) => {
           if (data.status === "ok") {
-            setIsRegistered(true);
             document.getElementById("register").style.opacity = 0;
             clearForm();
             document
@@ -68,8 +66,21 @@ const Register = ({ registerVisibility, clearForm }) => {
     }
   };
 
+  const handleCloseRegister = () => {
+    document.getElementById("register").style.opacity = 0;
+    clearForm();
+    document
+      .getElementById("register")
+      .addEventListener("transitionend", () => {
+        registerVisibility();
+      });
+  };
+
   return (
     <section id="register">
+      <button className="closeButton" onClick={handleCloseRegister}>
+        X
+      </button>
       <form onSubmit={handleSubmitRegister}>
         <h2>Register</h2>
         <input

@@ -7,12 +7,18 @@ export const AppProvider = ({ children }) => {
     logged: false,
   });
 
+  const [limit, setLimit] = useState({
+    isLimitSet: false,
+  });
+
   const handleChangeLoginData = (data) => {
     setLoginData(data);
   };
 
   return (
-    <AppContext.Provider value={{ loginData, handleChangeLoginData }}>
+    <AppContext.Provider
+      value={{ loginData, handleChangeLoginData, limit, setLimit }}
+    >
       {children}
     </AppContext.Provider>
   );
