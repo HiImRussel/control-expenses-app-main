@@ -11,13 +11,28 @@ export const AppProvider = ({ children }) => {
     isLimitSet: false,
   });
 
+  //expenses
+  const [expenses, setExpenses] = useState({ status: "undefinied" });
+
+  const handleChangeExpenses = (data) => {
+    setExpenses(data);
+  };
+
+  //login
   const handleChangeLoginData = (data) => {
     setLoginData(data);
   };
 
   return (
     <AppContext.Provider
-      value={{ loginData, handleChangeLoginData, limit, setLimit }}
+      value={{
+        loginData,
+        handleChangeLoginData,
+        limit,
+        setLimit,
+        expenses,
+        handleChangeExpenses,
+      }}
     >
       {children}
     </AppContext.Provider>

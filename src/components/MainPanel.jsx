@@ -3,9 +3,12 @@ import { useContext, useState } from "react";
 import { AppContext } from "../context/MainContext";
 import { Redirect } from "react-router";
 import Limits from "./Limits";
+import SpendMoney from "./SpendMoney";
 
 const MainPanel = () => {
+  //panels visibility
   const [isLimitsVisable, setIsLimitsVisable] = useState(false);
+  const [isSpendMoneyVisable, setIsSpendMoneyVisable] = useState(false);
 
   const { loginData, limit } = useContext(AppContext);
 
@@ -13,11 +16,24 @@ const MainPanel = () => {
     setIsLimitsVisable(true);
   };
 
+  const handleShowSpendMoney = () => {
+    setIsSpendMoneyVisable(true);
+  };
+
   const closeLimits = () => {
     document.getElementById("limits").style.opacity = 0;
     document.getElementById("limits").addEventListener("transitionend", () => {
       setIsLimitsVisable(false);
     });
+  };
+
+  const closeSpendMoney = () => {
+    document.getElementById("spend-money").style.opacity = 0;
+    document
+      .getElementById("spend-money")
+      .addEventListener("transitionend", () => {
+        setIsSpendMoneyVisable(false);
+      });
   };
   return (
     <>
@@ -94,7 +110,7 @@ const MainPanel = () => {
               />
             </svg>
           </div>
-          <div className="action-box">
+          <div className="action-box" onClick={handleShowSpendMoney}>
             <p>Spend Money</p>
             <svg
               viewBox="0 0 404 404"
@@ -314,6 +330,7 @@ const MainPanel = () => {
         </div>
       </section>
       {isLimitsVisable && <Limits handler={closeLimits} />}
+      {isSpendMoneyVisable && <SpendMoney handler={closeSpendMoney} />}
     </>
   );
 };

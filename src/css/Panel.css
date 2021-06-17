@@ -49,8 +49,7 @@
 }
 
 .action-box:hover {
-  transform: translate(-15px, -15px);
-  background-color: #fe646f;
+  transform: scale(1.1);
 }
 
 .action-box svg {

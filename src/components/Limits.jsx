@@ -37,6 +37,9 @@ const Limits = ({ handler }) => {
             });
             setIsMessageVisable(true);
             setMessage("Deleted succesfull!");
+          } else {
+            setIsMessageVisable(true);
+            setMessage("Something went wrong!");
           }
         })
         .catch((error) => console.log("Error", error));
@@ -71,7 +74,7 @@ const Limits = ({ handler }) => {
               targetValue: 0,
             });
           } else {
-            setMessage("Something went wrong on adding new limit!");
+            setMessage(data.message);
           }
           setIsMessageVisable(true);
         });
@@ -103,7 +106,7 @@ const Limits = ({ handler }) => {
             }));
             setMessage("Succesfull seted new target!");
           } else {
-            setMessage("Something went wrong on adding new target!");
+            setMessage(data.message);
           }
           setIsMessageVisable(true);
         })
@@ -139,7 +142,7 @@ const Limits = ({ handler }) => {
             }));
             setMessage("Succesfull edited new target!");
           } else {
-            setMessage("Something went wrong on edditing new target!");
+            setMessage(data.message);
           }
           setIsMessageVisable(true);
         })
