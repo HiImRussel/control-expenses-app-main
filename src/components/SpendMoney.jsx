@@ -119,6 +119,10 @@ const SpendMoney = ({ handler }) => {
                     targetValue: prevValue.targetValue,
                   };
                 });
+
+                setProductName("");
+                setCategory("Category 1");
+                setCost("");
               } else {
                 setIsMessageVisable(true);
                 setMessage(data.message);

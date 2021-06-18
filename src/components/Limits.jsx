@@ -1,13 +1,20 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../context/MainContext";
 import Message from "./Message";
+import SetDate from "./SetDate";
 
 import "../css/Limits.css";
 
 const Limits = ({ handler }) => {
-  const { loginData, limit, setLimit } = useContext(AppContext);
+  const { loginData, limit, setLimit, handleChangeExpenses } =
+    useContext(AppContext);
+
+  //mesage visiblity
   const [isMessageVisable, setIsMessageVisable] = useState(false);
   const [message, setMessage] = useState("");
+
+  //setLimit date
+  const [isSetDateVisable, setIsSetDateVisable] = useState(false);
 
   //input values
   const [newLimitValue, setNewLimitValue] = useState("");
@@ -35,6 +42,11 @@ const Limits = ({ handler }) => {
             setLimit({
               isLimitSet: false,
             });
+            handleChangeExpenses({
+              status: "undefinied",
+              expenses: [],
+            });
+
             setIsMessageVisable(true);
             setMessage("Deleted succesfull!");
           } else {
@@ -49,14 +61,50 @@ const Limits = ({ handler }) => {
     }
   };
 
-  const handleSetLimit = () => {
+  const handleOpenDate = () => {
     if (newLimitValue.length > 0) {
+      setIsSetDateVisable(true);
+    } else {
+      setMessage("Fill field with data");
+      setIsMessageVisable(true);
+    }
+  };
+
+  const handleSetLimit = (time = "") => {
+    setIsSetDateVisable(false);
+    if (newLimitValue.length > 0) {
+      let expireDate = "";
+      const currentDate = new Date();
+      let day = currentDate.getDate();
+      let month = currentDate.getMonth() + 1;
+      let year = currentDate.getFullYear();
+
+      switch (time) {
+        case "1 day":
+          day += 1;
+          break;
+        case "1 week":
+          day += 1;
+          break;
+        case "1 month":
+          month += 1;
+          break;
+        default:
+          return null;
+      }
+
+      expireDate = new Date(year, month, day);
+
       fetch("http://127.0.0.1:3030/setLimit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: loginData.userId, value: newLimitValue }),
+        body: JSON.stringify({
+          id: loginData.userId,
+          value: newLimitValue,
+          time: expireDate,
+        }),
       })
         .then((response) => {
           if (response.status === 200) {
@@ -73,7 +121,9 @@ const Limits = ({ handler }) => {
               startValue: parseFloat(newLimitValue),
               limitValue: parseFloat(newLimitValue),
               targetValue: 0,
+              expireTime: expireDate,
             });
+            setIsSetDateVisable(false);
           } else {
             setMessage(data.message);
           }
@@ -165,6 +215,14 @@ const Limits = ({ handler }) => {
     document.getElementById("deleted").addEventListener("transitionend", () => {
       document.getElementById("deleted").style.display = "none";
       setIsMessageVisable(false);
+    });
+  };
+
+  const handleCloseDate = () => {
+    document.getElementById("setDate").style.opacity = 0;
+    document.getElementById("setDate").addEventListener("transitionend", () => {
+      document.getElementById("setDate").style.display = "none";
+      setIsSetDateVisable(false);
     });
   };
 
@@ -497,7 +555,7 @@ const Limits = ({ handler }) => {
               name="newLimit"
               onChange={handleChangeInput}
             />
-            <button onClick={handleSetLimit}>SET</button>
+            <button onClick={handleOpenDate}>SET</button>
           </div>
           <div className="limitBox">
             <p>Set target</p>
@@ -752,6 +810,10 @@ const Limits = ({ handler }) => {
       </section>
       {isMessageVisable && (
         <Message handler={handleCloseMessage} message={message} />
+      )}
+
+      {isSetDateVisable && (
+        <SetDate handleClose={handleCloseDate} handleSet={handleSetLimit} />
       )}
     </>
   );

@@ -1,18 +1,28 @@
 import "../css/Panel.css";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/MainContext";
 import { Redirect } from "react-router";
 import Limits from "./Limits";
 import SpendMoney from "./SpendMoney";
 import Charts from "./Charts";
+import ExpireInfo from "./ExpireInfo";
+import Message from "./Message";
 
 const MainPanel = () => {
   //panels visibility
   const [isLimitsVisable, setIsLimitsVisable] = useState(false);
   const [isSpendMoneyVisable, setIsSpendMoneyVisable] = useState(false);
   const [isChartsVisable, setIsChartsVisable] = useState(false);
-
-  const { loginData, limit } = useContext(AppContext);
+  const [isExpiredVisable, setIsExpireVisabled] = useState(false);
+  const [isMessageVisable, setIsMessageVisable] = useState(false);
+  const [message, setMessage] = useState("");
+  const {
+    loginData,
+    handleChangeLoginData,
+    limit,
+    setLimit,
+    handleChangeExpenses,
+  } = useContext(AppContext);
 
   const handleShowLimits = () => {
     setIsLimitsVisable(true);
@@ -48,10 +58,89 @@ const MainPanel = () => {
       setIsChartsVisable(false);
     });
   };
+
+  const closeExpire = () => {
+    document.getElementById("expireInfo").style.opacity = 0;
+    document
+      .getElementById("expireInfo")
+      .addEventListener("transitionend", () => {
+        setIsExpireVisabled(false);
+        if (limit.isLimitSet) {
+          fetch("http://127.0.0.1:3030/delete-limit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: loginData.userId }),
+          })
+            .then((response) => {
+              if (response.status === 200) {
+                return response.json();
+              } else {
+                throw new Error("error");
+              }
+            })
+            .then((data) => {
+              if (data.deleted === true) {
+                setLimit({
+                  isLimitSet: false,
+                });
+                handleChangeExpenses({
+                  status: "undefinied",
+                  expenses: [],
+                });
+
+                setIsMessageVisable(true);
+                setMessage("Deleted old limit!");
+              } else {
+                setIsMessageVisable(true);
+                setMessage("Something went wrong!");
+              }
+            })
+            .catch((error) => console.log("Error", error));
+        } else {
+          setIsMessageVisable(true);
+          setMessage("You need to set limit first!");
+        }
+      });
+  };
+
+  const handleCloseMessage = () => {
+    document.getElementById("deleted").style.opacity = 0;
+    document.getElementById("deleted").addEventListener("transitionend", () => {
+      document.getElementById("deleted").style.display = "none";
+      setIsMessageVisable(false);
+    });
+  };
+
+  const Logout = () => {
+    handleChangeLoginData({
+      logged: false,
+    });
+    setLimit({
+      isLimitSet: false,
+    });
+    handleChangeExpenses({
+      status: "undefinied",
+      expenses: [],
+    });
+  };
+
+  const nowDate = new Date();
+  const expTime = new Date(limit.expireTime);
+
+  useEffect(() => {
+    if (nowDate === expTime) {
+      setIsExpireVisabled(true);
+    }
+  }, []);
   return (
     <>
       {loginData.logged || <Redirect to="/" />}
       <section id="panel">
+        <button class="logOut" onClick={Logout}>
+          Log out
+        </button>
         <div id="userInfo">Hi {loginData.userName}!</div>
         {limit.isLimitSet && (
           <p className="limit">
@@ -345,6 +434,10 @@ const MainPanel = () => {
       {isLimitsVisable && <Limits handler={closeLimits} />}
       {isSpendMoneyVisable && <SpendMoney handler={closeSpendMoney} />}
       {isChartsVisable && <Charts handler={closeCharts} />}
+      {isExpiredVisable && <ExpireInfo handler={closeExpire} />}
+      {isMessageVisable && (
+        <Message handler={handleCloseMessage} message={message} />
+      )}
     </>
   );
 };

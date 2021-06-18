@@ -1,0 +1,72 @@
+#setDate {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.486);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+#closeDate {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: white;
+  border: 0px;
+  font-size: 2.3em;
+  cursor: pointer;
+}
+
+#closeDate:focus {
+  outline: none;
+}
+
+#setTime {
+  background-color: white;
+  padding: 20px 60px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#setTime h3 {
+  color: rgb(160, 160, 160);
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 2em;
+}
+
+#setTime select {
+  margin-top: 20px;
+  padding: 10px 30px;
+  font-size: 1.4em;
+  color: white;
+  background-color: #5feda9;
+  border-radius: 50px;
+  border: 0px;
+  cursor: pointer;
+}
+
+.set {
+  padding: 10px 40px;
+  background-color: #5feda9;
+  color: white;
+  font-size: 1.4em;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.set:hover {
+  transform: scale(1.1);
+}

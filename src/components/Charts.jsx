@@ -111,8 +111,8 @@ const Charts = ({ handler }) => {
       <div className="chart-one">
         <h1>Yours expenses in this limit</h1>
         <canvas id="expenses-chart" width="500"></canvas>
+        {isErrorVisable && <p>You need to add product to analise data!</p>}
       </div>
-      {isErrorVisable && <p>You need to add product to analise data!</p>}
     </section>
   );
 };
