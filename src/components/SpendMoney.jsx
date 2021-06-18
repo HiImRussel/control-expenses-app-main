@@ -195,9 +195,15 @@ const SpendMoney = ({ handler }) => {
               value={cost}
               onChange={handleSetProductValues}
             />
-            <span>Current: {limit.limitValue - limit.targetValue}$</span>
+            <span>
+              Current:{" "}
+              {limit.isLimitSet && limit.limitValue - limit.targetValue}$
+            </span>
             <p className="money-left">
-              Left: {limit.limitValue - limit.targetValue - cost.toString()}$
+              Left:{" "}
+              {limit.isLimitSet &&
+                limit.limitValue - limit.targetValue - cost.toString()}
+              $
             </p>
             <br />
             <button>Spend</button>

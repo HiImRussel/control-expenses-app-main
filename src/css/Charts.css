@@ -1,0 +1,38 @@
+#charts {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../Imgs/panel-bg.jpg");
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+#close-charts {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  border: 0px;
+  background-color: transparent;
+  font-size: 2.4em;
+  cursor: pointer;
+}
+
+#close-charts:focus {
+  outline: none;
+}
+.chart-one {
+  height: 500px;
+  background-color: white;
+  padding: 40px 40px;
+  border-radius: 30px;
+  color: black;
+  text-align: center;
+}

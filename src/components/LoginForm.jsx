@@ -57,6 +57,7 @@ const LoginForm = () => {
           if (data.isLimitSet) {
             setLimit({
               isLimitSet: true,
+              startValue: data.startValue,
               limitValue: data.limitValue,
               targetValue: data.targetValue,
             });

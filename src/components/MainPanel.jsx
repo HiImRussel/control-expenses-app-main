@@ -4,11 +4,13 @@ import { AppContext } from "../context/MainContext";
 import { Redirect } from "react-router";
 import Limits from "./Limits";
 import SpendMoney from "./SpendMoney";
+import Charts from "./Charts";
 
 const MainPanel = () => {
   //panels visibility
   const [isLimitsVisable, setIsLimitsVisable] = useState(false);
   const [isSpendMoneyVisable, setIsSpendMoneyVisable] = useState(false);
+  const [isChartsVisable, setIsChartsVisable] = useState(false);
 
   const { loginData, limit } = useContext(AppContext);
 
@@ -18,6 +20,10 @@ const MainPanel = () => {
 
   const handleShowSpendMoney = () => {
     setIsSpendMoneyVisable(true);
+  };
+
+  const handleShowCharts = () => {
+    setIsChartsVisable(true);
   };
 
   const closeLimits = () => {
@@ -34,6 +40,13 @@ const MainPanel = () => {
       .addEventListener("transitionend", () => {
         setIsSpendMoneyVisable(false);
       });
+  };
+
+  const closeCharts = () => {
+    document.getElementById("charts").style.opacity = 0;
+    document.getElementById("charts").addEventListener("transitionend", () => {
+      setIsChartsVisable(false);
+    });
   };
   return (
     <>
@@ -267,7 +280,7 @@ const MainPanel = () => {
               />
             </svg>
           </div>
-          <div className="action-box">
+          <div className="action-box" onClick={handleShowCharts}>
             <p>Charts</p>
             <svg
               viewBox="0 0 404 404"
@@ -331,6 +344,7 @@ const MainPanel = () => {
       </section>
       {isLimitsVisable && <Limits handler={closeLimits} />}
       {isSpendMoneyVisable && <SpendMoney handler={closeSpendMoney} />}
+      {isChartsVisable && <Charts handler={closeCharts} />}
     </>
   );
 };

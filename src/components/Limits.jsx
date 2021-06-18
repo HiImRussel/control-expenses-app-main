@@ -70,6 +70,7 @@ const Limits = ({ handler }) => {
             setMessage("Succesfull seted new limit!");
             setLimit({
               isLimitSet: true,
+              startValue: parseFloat(newLimitValue),
               limitValue: parseFloat(newLimitValue),
               targetValue: 0,
             });
@@ -78,6 +79,9 @@ const Limits = ({ handler }) => {
           }
           setIsMessageVisable(true);
         });
+    } else {
+      setMessage("Fill field with data");
+      setIsMessageVisable(true);
     }
   };
 
@@ -111,6 +115,9 @@ const Limits = ({ handler }) => {
           setIsMessageVisable(true);
         })
         .catch((err) => console.log("error: ", err));
+    } else {
+      setMessage("Fill field with data");
+      setIsMessageVisable(true);
     }
   };
 
@@ -147,6 +154,9 @@ const Limits = ({ handler }) => {
           setIsMessageVisable(true);
         })
         .catch((err) => console.log("error: ", err));
+    } else {
+      setMessage("Fill field with data");
+      setIsMessageVisable(true);
     }
   };
 
