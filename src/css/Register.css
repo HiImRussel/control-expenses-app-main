@@ -74,6 +74,17 @@
   }
 }
 
+@keyframes registerOut {
+  from {
+    top: 0px;
+    opacity: 1;
+  }
+  to {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
 .closeButton {
   background-color: transparent !important;
   font-weight: 600;

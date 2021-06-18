@@ -2,7 +2,7 @@
   position: absolute;
   top: 0px;
   background-image: url("../Imgs/registerBg.jpg");
-  animation: fadeIn 0.2s ease-in-out;
+  animation: registerShow 0.3s ease-in-out;
   z-index: 5;
   height: 100vh;
   width: 100vw;

@@ -71,6 +71,7 @@ const LoginForm = () => {
   };
 
   const handleRegisterVisibility = () => {
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     setIsRegisterVisable((prevValue) => !prevValue);
   };
 

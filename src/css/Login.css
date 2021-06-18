@@ -90,3 +90,12 @@
 #login-form h2 {
   color: #5feda9;
 }
+
+#login-form p {
+  margin-top: 10px;
+}
+
+#login-form p:nth-last-of-type(1) {
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "../css/Register.css";
 
@@ -67,14 +67,21 @@ const Register = ({ registerVisibility, clearForm }) => {
   };
 
   const handleCloseRegister = () => {
-    document.getElementById("register").style.opacity = 0;
+    document.getElementById("register").style.animation =
+      "registerOut 0.3s ease-in-out";
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     clearForm();
-    document
-      .getElementById("register")
-      .addEventListener("transitionend", () => {
-        registerVisibility();
-      });
+    document.getElementById("register").addEventListener("animationend", () => {
+      document.getElementsByTagName("body")[0].style.overflowY = "auto";
+      registerVisibility();
+    });
   };
+
+  useEffect(() => {
+    document.getElementById("register").addEventListener("animationend", () => {
+      document.getElementsByTagName("body")[0].style.overflowY = "auto";
+    });
+  }, []);
 
   return (
     <section id="register">

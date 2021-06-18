@@ -37,24 +37,27 @@ const MainPanel = () => {
   };
 
   const closeLimits = () => {
-    document.getElementById("limits").style.opacity = 0;
-    document.getElementById("limits").addEventListener("transitionend", () => {
+    document.getElementById("limits").style.animation =
+      "registerOut 0.3s ease-in-out";
+    document.getElementById("limits").addEventListener("animationend", () => {
       setIsLimitsVisable(false);
     });
   };
 
   const closeSpendMoney = () => {
-    document.getElementById("spend-money").style.opacity = 0;
+    document.getElementById("spend-money").style.animation =
+      "registerOut 0.3s ease-in-out";
     document
       .getElementById("spend-money")
-      .addEventListener("transitionend", () => {
+      .addEventListener("animationend", () => {
         setIsSpendMoneyVisable(false);
       });
   };
 
   const closeCharts = () => {
-    document.getElementById("charts").style.opacity = 0;
-    document.getElementById("charts").addEventListener("transitionend", () => {
+    document.getElementById("charts").style.animation =
+      "registerOut 0.3s ease-in-out";
+    document.getElementById("charts").addEventListener("animationend", () => {
       setIsChartsVisable(false);
     });
   };
