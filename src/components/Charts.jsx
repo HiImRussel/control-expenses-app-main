@@ -103,6 +103,12 @@ const Charts = ({ handler }) => {
     }
   }, [expenses.status]);
 
+  useEffect(() => {
+    document.getElementById("charts").addEventListener("animationend", () => {
+      document.getElementsByTagName("body")[0].style.overflowY = "auto";
+    });
+  }, []);
+
   return (
     <section id="charts">
       <button onClick={handler} id="close-charts">
@@ -110,8 +116,25 @@ const Charts = ({ handler }) => {
       </button>
       <div className="chart-one">
         <h1>Yours expenses in this limit</h1>
-        <canvas id="expenses-chart" width="500"></canvas>
-        {isErrorVisable && <p>You need to add product to analise data!</p>}
+        <canvas id="expenses-chart" width="300"></canvas>
+        {isErrorVisable && (
+          <>
+            <p>You need to add product to analise data!</p>
+          </>
+        )}
+
+        {limit.isLimitSet && (
+          <>
+            <h6>Start limit:</h6>
+            <p>{parseFloat(limit.startValue)}</p>
+            <h6>Money left:</h6>
+            <p>{parseFloat(limit.limitValue)}</p>
+            <h6>Target value</h6>
+            <p>{parseFloat(limit.targetValue)}</p>
+            <h6>You spend:</h6>
+            <p>{parseFloat(limit.startValue) - parseFloat(limit.limitValue)}</p>
+          </>
+        )}
       </div>
     </section>
   );

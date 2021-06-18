@@ -13,13 +13,13 @@ const ExpireInfo = ({ handler }) => {
         </h2>
         <h3>Basic info</h3>
         <h6>Start limit:</h6>
-        <p>{limit.startValue}</p>
+        <p>{parseFloat(limit.startValue)}</p>
         <h6>Money left:</h6>
-        <p>{limit.limitValue}</p>
+        <p>{parseFloat(limit.limitValue)}</p>
         <h6>Target value</h6>
-        <p>{limit.targetValue}</p>
+        <p>{parseFloat(limit.targetValue)}</p>
         <h6>You spend:</h6>
-        <p>{limit.startValue - limit.limitValue}</p>
+        <p>{parseFloat(limit.startValue) - parseFloat(limit.limitValue)}</p>
         <button id="closeExpire" onClick={handler}>
           OK
         </button>

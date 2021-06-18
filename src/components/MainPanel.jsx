@@ -25,40 +25,49 @@ const MainPanel = () => {
   } = useContext(AppContext);
 
   const handleShowLimits = () => {
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     setIsLimitsVisable(true);
   };
 
   const handleShowSpendMoney = () => {
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     setIsSpendMoneyVisable(true);
   };
 
   const handleShowCharts = () => {
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     setIsChartsVisable(true);
   };
 
   const closeLimits = () => {
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document.getElementById("limits").style.animation =
       "registerOut 0.3s ease-in-out";
     document.getElementById("limits").addEventListener("animationend", () => {
       setIsLimitsVisable(false);
+      document.getElementsByTagName("body")[0].style.overflowY = "auto";
     });
   };
 
   const closeSpendMoney = () => {
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document.getElementById("spend-money").style.animation =
       "registerOut 0.3s ease-in-out";
     document
       .getElementById("spend-money")
       .addEventListener("animationend", () => {
         setIsSpendMoneyVisable(false);
+        document.getElementsByTagName("body")[0].style.overflowY = "auto";
       });
   };
 
   const closeCharts = () => {
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document.getElementById("charts").style.animation =
       "registerOut 0.3s ease-in-out";
     document.getElementById("charts").addEventListener("animationend", () => {
       setIsChartsVisable(false);
+      document.getElementsByTagName("body")[0].style.overflowY = "auto";
     });
   };
 
@@ -131,9 +140,11 @@ const MainPanel = () => {
 
   const nowDate = new Date();
   const expTime = new Date(limit.expireTime);
+  nowDate.setHours(0, 0, 0, 0);
+  expTime.setHours(0, 0, 0, 0);
 
   useEffect(() => {
-    if (nowDate === expTime) {
+    if (nowDate.getTime() >= expTime.getTime()) {
       setIsExpireVisabled(true);
     }
   }, []);

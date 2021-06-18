@@ -164,6 +164,14 @@ const SpendMoney = ({ handler }) => {
     }
   };
 
+  useEffect(() => {
+    document
+      .getElementById("spend-money")
+      .addEventListener("animationend", () => {
+        document.getElementsByTagName("body")[0].style.overflowY = "auto";
+      });
+  }, []);
+
   return (
     <>
       <section id="spend-money">

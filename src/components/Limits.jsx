@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/MainContext";
 import Message from "./Message";
 import SetDate from "./SetDate";
@@ -242,6 +242,11 @@ const Limits = ({ handler }) => {
     }
   };
 
+  useEffect(() => {
+    document.getElementById("limits").addEventListener("animationend", () => {
+      document.getElementsByTagName("body")[0].style.overflowY = "auto";
+    });
+  }, []);
   return (
     <>
       <section id="limits">
