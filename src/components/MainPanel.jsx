@@ -40,6 +40,7 @@ const MainPanel = () => {
   };
 
   const closeLimits = () => {
+    document.getElementById("panel").style.display = "block";
     document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document.getElementById("limits").style.animation =
       "registerOut 0.3s ease-in-out";
@@ -50,6 +51,7 @@ const MainPanel = () => {
   };
 
   const closeSpendMoney = () => {
+    document.getElementById("panel").style.display = "block";
     document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document.getElementById("spend-money").style.animation =
       "registerOut 0.3s ease-in-out";
@@ -62,6 +64,7 @@ const MainPanel = () => {
   };
 
   const closeCharts = () => {
+    document.getElementById("panel").style.display = "block";
     document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document.getElementById("charts").style.animation =
       "registerOut 0.3s ease-in-out";
@@ -144,6 +147,7 @@ const MainPanel = () => {
   expTime.setHours(0, 0, 0, 0);
 
   useEffect(() => {
+    document.getElementsByTagName("body")[0].style.overflowY = "scroll";
     if (nowDate.getTime() >= expTime.getTime()) {
       setIsExpireVisabled(true);
     }
@@ -152,18 +156,20 @@ const MainPanel = () => {
     <>
       {loginData.logged || <Redirect to="/" />}
       <section id="panel">
-        <button class="logOut" onClick={Logout}>
-          Log out
-        </button>
-        <div id="userInfo">Hi {loginData.userName}!</div>
-        {limit.isLimitSet && (
-          <p className="limit">
-            Money left:{" "}
-            <span style={{ color: "red", fontWeight: "bold" }}>
-              {limit.limitValue - limit.targetValue}$
-            </span>
-          </p>
-        )}
+        <div className="nav-bar">
+          <div id="userInfo">Hi {loginData.userName}!</div>
+          {limit.isLimitSet && (
+            <p className="limit">
+              Money left:{" "}
+              <span style={{ color: "red", fontWeight: "bold" }}>
+                {limit.limitValue - limit.targetValue}$
+              </span>
+            </p>
+          )}
+          <button class="logOut" onClick={Logout}>
+            Log out
+          </button>
+        </div>
         <div id="action-boxes">
           <div className="action-box" onClick={handleShowLimits}>
             <p>Limits</p>

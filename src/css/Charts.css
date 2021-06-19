@@ -7,11 +7,11 @@
   left: 0px;
   z-index: 9;
   display: flex;
-  justify-content: center;
-  align-items: center;
   color: white;
   transition: all 0.3s ease-in-out;
   animation: registerShow 0.3s ease-in-out;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 #close-charts {
@@ -29,10 +29,84 @@
   outline: none;
 }
 .chart-one {
-  height: 500px;
+  width: 50vw;
+  height: 100vh;
   background-color: white;
-  padding: 40px 40px;
-  border-radius: 30px;
   color: black;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.chart-one h1 {
+  margin-top: 30px;
+}
+
+.chart-one p {
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  width: 100%;
+  transform: translate(-25%, -50%);
+}
+
+.chart-one div {
+  width: 30vw;
+}
+
+.limitData {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+
+.limitData div {
+  background-color: white;
+  color: black;
+  height: 30vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 30vw;
+  border-radius: 40px;
+}
+
+@media only screen and (max-width: 650px) {
+  .chart-one {
+    width: 100vw;
+  }
+
+  .chart-one div {
+    width: 90vw;
+  }
+
+  .limitData {
+    width: 100vw;
+  }
+
+  .limitData {
+    background-image: url("../Imgs/panel-bg.jpg");
+  }
+
+  .limitData div {
+    width: auto;
+    height: auto;
+    padding: 50px 50px;
+  }
+
+  #close-charts svg rect {
+    fill: black;
+  }
+  .chart-one p {
+    width: 100vw;
+    text-align: center;
+    left: 25%;
+  }
 }

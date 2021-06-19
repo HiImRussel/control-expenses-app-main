@@ -104,7 +104,9 @@ const Charts = ({ handler }) => {
   }, [expenses.status]);
 
   useEffect(() => {
+    document.getElementById("panel").style.display = "none";
     document.getElementById("charts").addEventListener("animationend", () => {
+      document.getElementsByTagName("html")[0].scrollTop = 0;
       document.getElementsByTagName("body")[0].style.overflowY = "auto";
     });
   }, []);
@@ -112,27 +114,72 @@ const Charts = ({ handler }) => {
   return (
     <section id="charts">
       <button onClick={handler} id="close-charts">
-        X
+        <svg
+          height="30px"
+          viewBox="0 0 144 145"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="17.9061"
+            y="0.728638"
+            width="178"
+            height="25"
+            rx="12.5"
+            transform="rotate(45 17.9061 0.728638)"
+            fill="white"
+          />
+          <rect
+            x="0.228638"
+            y="126.594"
+            width="178"
+            height="25"
+            rx="12.5"
+            transform="rotate(-45 0.228638 126.594)"
+            fill="white"
+          />
+        </svg>
       </button>
       <div className="chart-one">
         <h1>Yours expenses in this limit</h1>
-        <canvas id="expenses-chart" width="300"></canvas>
-        {isErrorVisable && (
-          <>
-            <p>You need to add product to analise data!</p>
-          </>
-        )}
-
+        <div>
+          <canvas id="expenses-chart" width="300"></canvas>
+          {isErrorVisable && (
+            <>
+              <p>You need to add product to analise data!</p>
+            </>
+          )}
+        </div>
+      </div>
+      <div class="limitData">
         {limit.isLimitSet && (
           <>
-            <h6>Start limit:</h6>
-            <p>{parseFloat(limit.startValue)}</p>
-            <h6>Money left:</h6>
-            <p>{parseFloat(limit.limitValue)}</p>
-            <h6>Target value</h6>
-            <p>{parseFloat(limit.targetValue)}</p>
-            <h6>You spend:</h6>
-            <p>{parseFloat(limit.startValue) - parseFloat(limit.limitValue)}</p>
+            <div>
+              <h2>
+                Start limit:{" "}
+                <span style={{ color: "red" }}>
+                  {parseFloat(limit.startValue)}
+                </span>
+              </h2>
+              <h2>
+                Money left:{" "}
+                <span style={{ color: "#5FEDA9" }}>
+                  {parseFloat(limit.limitValue)}
+                </span>
+              </h2>
+              <h2>
+                Target value:{" "}
+                <span style={{ color: "#5FEDA9" }}>
+                  {parseFloat(limit.targetValue)}
+                </span>
+              </h2>
+              <h2>
+                You spend:{" "}
+                <span style={{ color: "red" }}>
+                  {parseFloat(limit.startValue) - parseFloat(limit.limitValue)}
+                </span>
+              </h2>
+            </div>
           </>
         )}
       </div>

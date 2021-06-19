@@ -3,13 +3,14 @@
   top: 0px;
   left: 0px;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: white;
   z-index: 8;
   transition: all 0.3s ease-in-out;
   animation: registerShow 0.3s ease-in-out;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 #closeSpend {
@@ -100,4 +101,16 @@ select:focus {
 
 .right-panel {
   color: white;
+}
+
+@media only screen and (max-width: 650px) {
+  .left-panel {
+    width: 100vw;
+  }
+  .right-panel {
+    width: 100vw;
+  }
+  #closeSpend svg rect {
+    fill: black;
+  }
 }

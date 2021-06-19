@@ -1,5 +1,5 @@
 #deleted {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   width: 100vw;
@@ -25,4 +25,8 @@
   font-size: 1.5em;
   border-radius: 50px;
   cursor: pointer;
+}
+
+#deleted h1 {
+  text-align: center;
 }

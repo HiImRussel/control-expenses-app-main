@@ -243,7 +243,9 @@ const Limits = ({ handler }) => {
   };
 
   useEffect(() => {
+    document.getElementById("panel").style.display = "none";
     document.getElementById("limits").addEventListener("animationend", () => {
+      document.getElementsByTagName("html")[0].scrollTop = 0;
       document.getElementsByTagName("body")[0].style.overflowY = "auto";
     });
   }, []);
@@ -251,7 +253,31 @@ const Limits = ({ handler }) => {
     <>
       <section id="limits">
         <button id="closeLimits" onClick={handler}>
-          X
+          <svg
+            height="30px"
+            viewBox="0 0 144 145"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="17.9061"
+              y="0.728638"
+              width="178"
+              height="25"
+              rx="12.5"
+              transform="rotate(45 17.9061 0.728638)"
+              fill="white"
+            />
+            <rect
+              x="0.228638"
+              y="126.594"
+              width="178"
+              height="25"
+              rx="12.5"
+              transform="rotate(-45 0.228638 126.594)"
+              fill="white"
+            />
+          </svg>
         </button>
         <h1>Limits</h1>
         <div className="limitBoxes">

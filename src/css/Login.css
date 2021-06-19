@@ -1,7 +1,6 @@
 #LoginSection {
   width: 100vw;
   min-height: 100vh;
-  background-image: url("../Imgs/LoginBG.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,6 +22,11 @@
   font-size: 1.4em;
   flex-direction: column;
   text-align: center;
+  background-image: url("../Imgs/SpendMoney-bg.jpg");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .login-banner svg {
@@ -98,4 +102,23 @@
 #login-form p:nth-last-of-type(1) {
   cursor: pointer;
   text-decoration: underline;
+}
+
+@media only screen and (max-width: 650px) {
+  .Login-Form {
+    width: 100vw;
+  }
+
+  #LoginSection {
+    justify-content: center;
+    align-items: center;
+    background-image: url("../Imgs/registerBg.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .login-banner {
+    display: none;
+  }
 }

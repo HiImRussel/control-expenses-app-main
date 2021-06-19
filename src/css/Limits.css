@@ -2,9 +2,12 @@
   position: absolute;
   top: 0px;
   background-image: url("../Imgs/registerBg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   animation: registerShow 0.3s ease-in-out;
   z-index: 5;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   color: white;
   display: flex;
@@ -37,6 +40,7 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .limitBox {
@@ -114,4 +118,25 @@
   font-size: 2em;
   color: white;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 650px) {
+  #limits {
+    padding-bottom: 20px;
+  }
+
+  .limitBoxes {
+    flex-wrap: wrap;
+  }
+
+  .limitBox {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+@media only screen and (max-width: 410px) {
+  .limitBox {
+    max-width: 40vw;
+  }
 }
