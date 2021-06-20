@@ -4,6 +4,7 @@
   background-color: white;
   position: absolute;
   top: 0px;
+  left: 0px;
   animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -65,6 +66,11 @@
   font-size: 1.1em;
   font-weight: 400;
   z-index: 3;
+  margin-right: 20px;
+}
+
+#userInfo {
+  margin-left: 20px;
 }
 
 .nav-bar {

@@ -45,11 +45,7 @@
 }
 
 .chart-one p {
-  position: absolute;
-  top: 50%;
   text-align: center;
-  width: 100%;
-  transform: translate(-25%, -50%);
 }
 
 .chart-one div {
@@ -103,10 +99,5 @@
 
   #close-charts svg rect {
     fill: black;
-  }
-  .chart-one p {
-    width: 100vw;
-    text-align: center;
-    left: 25%;
   }
 }

@@ -8,6 +8,7 @@ const Register = ({ registerVisibility, clearForm }) => {
   const [passwordValue, setPasswordValue] = useState("");
   const [registerError, setRegisterError] = useState(false);
 
+  //set inputs values
   const handleChange = (e) => {
     switch (e.target.name) {
       case "userName":
@@ -24,6 +25,7 @@ const Register = ({ registerVisibility, clearForm }) => {
     }
   };
 
+  //register
   const handleSubmitRegister = (e) => {
     e.preventDefault();
     if (
@@ -66,6 +68,7 @@ const Register = ({ registerVisibility, clearForm }) => {
     }
   };
 
+  //close register handler
   const handleCloseRegister = () => {
     document.getElementById("register").style.animation =
       "registerOut 0.3s ease-in-out";
@@ -78,6 +81,7 @@ const Register = ({ registerVisibility, clearForm }) => {
   };
 
   useEffect(() => {
+    //hiding scroll bar when animation is running
     document.getElementById("register").addEventListener("animationend", () => {
       document.getElementsByTagName("body")[0].style.overflowY = "auto";
     });

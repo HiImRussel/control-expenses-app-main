@@ -3,6 +3,7 @@ import { AppContext } from "../context/MainContext";
 import Loading from "./Loading";
 import Message from "./Message";
 import ProductList from "./ProductList";
+import { Link, Redirect } from "react-router-dom";
 
 import "../css/SpendMoney.css";
 
@@ -20,6 +21,7 @@ const SpendMoney = ({ handler }) => {
   const [category, setCategory] = useState("Category 1");
   const [cost, setCost] = useState("");
 
+  //download expenses and handle proper message
   useEffect(() => {
     if (expenses.status === "undefinied") {
       setIsLoadingVisable(true);
@@ -64,13 +66,19 @@ const SpendMoney = ({ handler }) => {
     }
   }, []);
 
+  //add expense
   const handleSpendMoney = (e) => {
     e.preventDefault();
     if (expenses.status === "undefinied") {
       setIsMessageVisable(true);
       setMessage("You need to set limit to spend money!");
     } else {
-      if (limit.limitValue - limit.targetValue - cost.toString() > 0) {
+      if (
+        parseFloat(limit.limitValue) -
+          parseFloat(limit.targetValue) -
+          parseFloat(cost) >
+        0
+      ) {
         if (productName.length > 0 && category.length > 0 && cost.length > 0) {
           const newProduct = {
             name: productName,
@@ -140,6 +148,7 @@ const SpendMoney = ({ handler }) => {
     }
   };
 
+  //close message
   const handleCloseMessage = () => {
     document.getElementById("deleted").style.opacity = 0;
     document.getElementById("deleted").addEventListener("transitionend", () => {
@@ -157,7 +166,9 @@ const SpendMoney = ({ handler }) => {
         setCategory(e.target.value);
         break;
       case "cost":
-        setCost(e.target.value);
+        if (parseFloat(e.target.value) >= 0 || e.target.value === "") {
+          setCost(e.target.value);
+        }
         break;
       default:
         return null;
@@ -165,7 +176,7 @@ const SpendMoney = ({ handler }) => {
   };
 
   useEffect(() => {
-    document.getElementById("panel").style.display = "none";
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document
       .getElementById("spend-money")
       .addEventListener("animationend", () => {
@@ -176,34 +187,37 @@ const SpendMoney = ({ handler }) => {
 
   return (
     <>
+      {loginData.logged || <Redirect to="/" />}
       <section id="spend-money">
-        <button onClick={handler} id="closeSpend">
-          <svg
-            height="30px"
-            viewBox="0 0 144 145"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="17.9061"
-              y="0.728638"
-              width="178"
-              height="25"
-              rx="12.5"
-              transform="rotate(45 17.9061 0.728638)"
-              fill="white"
-            />
-            <rect
-              x="0.228638"
-              y="126.594"
-              width="178"
-              height="25"
-              rx="12.5"
-              transform="rotate(-45 0.228638 126.594)"
-              fill="white"
-            />
-          </svg>
-        </button>
+        <Link to="/panel">
+          <button onClick={handler} id="closeSpend">
+            <svg
+              height="30px"
+              viewBox="0 0 144 145"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="17.9061"
+                y="0.728638"
+                width="178"
+                height="25"
+                rx="12.5"
+                transform="rotate(45 17.9061 0.728638)"
+                fill="white"
+              />
+              <rect
+                x="0.228638"
+                y="126.594"
+                width="178"
+                height="25"
+                rx="12.5"
+                transform="rotate(-45 0.228638 126.594)"
+                fill="white"
+              />
+            </svg>
+          </button>
+        </Link>
         <div className="left-panel">
           <h2>Add new product</h2>
           <form onSubmit={handleSpendMoney}>
@@ -219,11 +233,11 @@ const SpendMoney = ({ handler }) => {
               name="category"
               onChange={handleSetProductValues}
             >
-              <option>Category 1</option>
-              <option>Category 2</option>
-              <option>Category 3</option>
-              <option>Category 4</option>
-              <option>Category 5</option>
+              <option>Gasoline</option>
+              <option>Food and drinks</option>
+              <option>Charges</option>
+              <option>Stuff for fun</option>
+              <option>Other</option>
             </select>
             <br />
             <input

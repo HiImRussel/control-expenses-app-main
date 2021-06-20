@@ -2,10 +2,12 @@ import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/MainContext";
 import Message from "./Message";
 import SetDate from "./SetDate";
+import { Link, Redirect } from "react-router-dom";
 
 import "../css/Limits.css";
 
-const Limits = ({ handler }) => {
+const Limits = () => {
+  //context data
   const { loginData, limit, setLimit, handleChangeExpenses } =
     useContext(AppContext);
 
@@ -21,6 +23,7 @@ const Limits = ({ handler }) => {
   const [newTargetValue, setNewTargetValue] = useState("");
   const [newEditValue, setNewEditValue] = useState("");
 
+  //delete limit handler
   const handleDeleteLimit = () => {
     if (limit.isLimitSet) {
       fetch("http://127.0.0.1:3030/delete-limit", {
@@ -61,6 +64,7 @@ const Limits = ({ handler }) => {
     }
   };
 
+  //shoiw setDate menu when you want to set new limit
   const handleOpenDate = () => {
     if (newLimitValue.length > 0) {
       setIsSetDateVisable(true);
@@ -70,140 +74,158 @@ const Limits = ({ handler }) => {
     }
   };
 
+  //handle set new Limit (if every thing is ok you will see setDate menu)
   const handleSetLimit = (time = "") => {
     setIsSetDateVisable(false);
     if (newLimitValue.length > 0) {
-      let expireDate = "";
-      const currentDate = new Date();
-      let day = currentDate.getDate();
-      let month = currentDate.getMonth() + 1;
-      let year = currentDate.getFullYear();
+      if (parseFloat(newLimitValue) > 0) {
+        let expireDate = "";
+        const currentDate = new Date();
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
 
-      switch (time) {
-        case "1 day":
-          day += 1;
-          break;
-        case "1 week":
-          day += 1;
-          break;
-        case "1 month":
-          month += 1;
-          break;
-        default:
-          return null;
-      }
+        switch (time) {
+          case "1 day":
+            day += 1;
+            break;
+          case "1 week":
+            day += 1;
+            break;
+          case "1 month":
+            month += 1;
+            break;
+          default:
+            return null;
+        }
 
-      expireDate = new Date(year, month, day);
+        expireDate = new Date(year, month, day);
 
-      fetch("http://127.0.0.1:3030/setLimit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: loginData.userId,
-          value: newLimitValue,
-          time: expireDate,
-        }),
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            return response.json();
-          } else {
-            throw new Error("error");
-          }
+        fetch("http://127.0.0.1:3030/setLimit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: loginData.userId,
+            value: newLimitValue,
+            time: expireDate,
+          }),
         })
-        .then((data) => {
-          if (data.status === "ok") {
-            setMessage("Succesfull seted new limit!");
-            setLimit({
-              isLimitSet: true,
-              startValue: parseFloat(newLimitValue),
-              limitValue: parseFloat(newLimitValue),
-              targetValue: 0,
-              expireTime: expireDate,
-            });
-            setIsSetDateVisable(false);
-          } else {
-            setMessage(data.message);
-          }
-          setIsMessageVisable(true);
-        });
+          .then((response) => {
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              throw new Error("error");
+            }
+          })
+          .then((data) => {
+            if (data.status === "ok") {
+              setMessage("Succesfull seted new limit!");
+              setLimit({
+                isLimitSet: true,
+                startValue: parseFloat(newLimitValue),
+                limitValue: parseFloat(newLimitValue),
+                targetValue: 0,
+                expireTime: expireDate,
+              });
+              setIsSetDateVisable(false);
+            } else {
+              setMessage(data.message);
+            }
+            setIsMessageVisable(true);
+          });
+      } else {
+        setMessage("Value needs to be positive");
+        setIsMessageVisable(true);
+      }
     } else {
       setMessage("Fill field with data");
       setIsMessageVisable(true);
     }
   };
 
+  //set target in limit
   const handleSetTarget = () => {
     if (newTargetValue.length > 0) {
-      fetch("http://127.0.0.1:3030/setTarget", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: loginData.userId, value: newTargetValue }),
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            return response.json();
-          } else {
-            throw new Error("error");
-          }
+      if (parseFloat(newTargetValue) > 0) {
+        fetch("http://127.0.0.1:3030/setTarget", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: loginData.userId, value: newTargetValue }),
         })
-        .then((data) => {
-          if (data.status === "ok") {
-            setLimit((prevValue) => ({
-              isLimitSet: true,
-              limitValue: prevValue.limitValue,
-              targetValue: parseFloat(newTargetValue),
-            }));
-            setMessage("Succesfull seted new target!");
-          } else {
-            setMessage(data.message);
-          }
-          setIsMessageVisable(true);
-        })
-        .catch((err) => console.log("error: ", err));
+          .then((response) => {
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              throw new Error("error");
+            }
+          })
+          .then((data) => {
+            if (data.status === "ok") {
+              setLimit((prevValue) => ({
+                isLimitSet: true,
+                limitValue: prevValue.limitValue,
+                targetValue: parseFloat(newTargetValue),
+              }));
+              setMessage("Succesfull seted new target!");
+            } else {
+              setMessage(data.message);
+            }
+            setIsMessageVisable(true);
+          })
+          .catch((err) => console.log("error: ", err));
+      } else {
+        setMessage("Value needs to be positive");
+        setIsMessageVisable(true);
+      }
     } else {
       setMessage("Fill field with data");
       setIsMessageVisable(true);
     }
   };
 
+  //handle eidt limit (increase by value)
   const handleEditLimit = () => {
     if (newEditValue.length > 0) {
-      fetch("http://127.0.0.1:3030/editLimit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: loginData.userId,
-          value: newEditValue,
-        }),
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            return response.json();
-          } else {
-            throw new Error("error");
-          }
+      if (parseFloat(newEditValue) > 0) {
+        fetch("http://127.0.0.1:3030/editLimit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: loginData.userId,
+            value: newEditValue,
+          }),
         })
-        .then((data) => {
-          if (data.status === "ok") {
-            setLimit((prevValue) => ({
-              isLimitSet: true,
-              limitValue: prevValue.limitValue + parseFloat(newEditValue),
-              targetValue: prevValue.targetValue,
-            }));
-            setMessage("Succesfull edited new target!");
-          } else {
-            setMessage(data.message);
-          }
-          setIsMessageVisable(true);
-        })
-        .catch((err) => console.log("error: ", err));
+          .then((response) => {
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              throw new Error("error");
+            }
+          })
+          .then((data) => {
+            if (data.status === "ok") {
+              setLimit((prevValue) => ({
+                isLimitSet: true,
+                limitValue: prevValue.limitValue + parseFloat(newEditValue),
+                targetValue: prevValue.targetValue,
+              }));
+              setMessage("Succesfull edited new target!");
+            } else {
+              setMessage(data.message);
+            }
+            setIsMessageVisable(true);
+          })
+          .catch((err) => console.log("error: ", err));
+      } else {
+        setMessage("Value needs to be positive");
+        setIsMessageVisable(true);
+      }
     } else {
       setMessage("Fill field with data");
       setIsMessageVisable(true);
@@ -243,42 +265,47 @@ const Limits = ({ handler }) => {
   };
 
   useEffect(() => {
-    document.getElementById("panel").style.display = "none";
+    //hiding scroll bar when animation is running
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     document.getElementById("limits").addEventListener("animationend", () => {
       document.getElementsByTagName("html")[0].scrollTop = 0;
       document.getElementsByTagName("body")[0].style.overflowY = "auto";
     });
   }, []);
+
   return (
     <>
+      {loginData.logged || <Redirect to="/" />}
       <section id="limits">
-        <button id="closeLimits" onClick={handler}>
-          <svg
-            height="30px"
-            viewBox="0 0 144 145"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="17.9061"
-              y="0.728638"
-              width="178"
-              height="25"
-              rx="12.5"
-              transform="rotate(45 17.9061 0.728638)"
-              fill="white"
-            />
-            <rect
-              x="0.228638"
-              y="126.594"
-              width="178"
-              height="25"
-              rx="12.5"
-              transform="rotate(-45 0.228638 126.594)"
-              fill="white"
-            />
-          </svg>
-        </button>
+        <Link to="/panel">
+          <button id="closeLimits">
+            <svg
+              height="30px"
+              viewBox="0 0 144 145"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="17.9061"
+                y="0.728638"
+                width="178"
+                height="25"
+                rx="12.5"
+                transform="rotate(45 17.9061 0.728638)"
+                fill="white"
+              />
+              <rect
+                x="0.228638"
+                y="126.594"
+                width="178"
+                height="25"
+                rx="12.5"
+                transform="rotate(-45 0.228638 126.594)"
+                fill="white"
+              />
+            </svg>
+          </button>
+        </Link>
         <h1>Limits</h1>
         <div className="limitBoxes">
           <div className="limitBox">
