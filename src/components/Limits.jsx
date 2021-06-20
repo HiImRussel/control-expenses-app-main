@@ -149,34 +149,42 @@ const Limits = () => {
   const handleSetTarget = () => {
     if (newTargetValue.length > 0) {
       if (parseFloat(newTargetValue) > 0) {
-        fetch("http://127.0.0.1:3030/setTarget", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: loginData.userId, value: newTargetValue }),
-        })
-          .then((response) => {
-            if (response.status === 200) {
-              return response.json();
-            } else {
-              throw new Error("error");
-            }
+        if (parseFloat(newTargetValue) < limit.limitValue) {
+          fetch("http://127.0.0.1:3030/setTarget", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: loginData.userId,
+              value: newTargetValue,
+            }),
           })
-          .then((data) => {
-            if (data.status === "ok") {
-              setLimit((prevValue) => ({
-                isLimitSet: true,
-                limitValue: prevValue.limitValue,
-                targetValue: parseFloat(newTargetValue),
-              }));
-              setMessage("Succesfull seted new target!");
-            } else {
-              setMessage(data.message);
-            }
-            setIsMessageVisable(true);
-          })
-          .catch((err) => console.log("error: ", err));
+            .then((response) => {
+              if (response.status === 200) {
+                return response.json();
+              } else {
+                throw new Error("error");
+              }
+            })
+            .then((data) => {
+              if (data.status === "ok") {
+                setLimit((prevValue) => ({
+                  isLimitSet: true,
+                  limitValue: prevValue.limitValue,
+                  targetValue: parseFloat(newTargetValue),
+                }));
+                setMessage("Succesfull seted new target!");
+              } else {
+                setMessage(data.message);
+              }
+              setIsMessageVisable(true);
+            })
+            .catch((err) => console.log("error: ", err));
+        } else {
+          setMessage("Target value need to be less than money left value");
+          setIsMessageVisable(true);
+        }
       } else {
         setMessage("Value needs to be positive");
         setIsMessageVisable(true);
