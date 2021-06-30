@@ -27,7 +27,7 @@ const Limits = () => {
   const handleDeleteLimit = () => {
     if (limit.isLimitSet) {
       fetch("http://127.0.0.1:3030/delete-limit", {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
@@ -82,7 +82,7 @@ const Limits = () => {
         let expireDate = "";
         const currentDate = new Date();
         let day = currentDate.getDate();
-        let month = currentDate.getMonth() + 1;
+        let month = currentDate.getMonth();
         let year = currentDate.getFullYear();
 
         switch (time) {
@@ -90,7 +90,7 @@ const Limits = () => {
             day += 1;
             break;
           case "1 week":
-            day += 1;
+            day += 7;
             break;
           case "1 month":
             month += 1;
@@ -200,7 +200,7 @@ const Limits = () => {
     if (newEditValue.length > 0) {
       if (parseFloat(newEditValue) > 0) {
         fetch("http://127.0.0.1:3030/editLimit", {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },

@@ -98,7 +98,7 @@ const MainPanel = () => {
   expTime.setHours(0, 0, 0, 0);
 
   useEffect(() => {
-    if (nowDate.getTime() >= expTime.getTime()) {
+    if (parseFloat(nowDate.getTime()) >= parseFloat(expTime.getTime())) {
       setIsExpireVisabled(true);
     }
   }, []);
