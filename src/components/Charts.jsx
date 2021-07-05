@@ -10,7 +10,6 @@ const Charts = ({ handler }) => {
 
   const { loginData, expenses, handleChangeExpenses, limit } =
     useContext(AppContext);
-
   //load expenses chart
   useEffect(() => {
     Chart.register(...registerables);
@@ -171,9 +170,7 @@ const Charts = ({ handler }) => {
                 </h2>
                 <h2>
                   Target value:{" "}
-                  <span style={{ color: "#5FEDA9" }}>
-                    {parseFloat(limit.targetValue)}
-                  </span>
+                  <span style={{ color: "#5FEDA9" }}>{limit.targetValue}</span>
                 </h2>
                 <h2>
                   You spend:{" "}

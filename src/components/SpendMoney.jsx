@@ -83,7 +83,7 @@ const SpendMoney = ({ handler }) => {
           const newProduct = {
             name: productName,
             category: category,
-            cost: cost,
+            cost: parseFloat(cost),
           };
 
           fetch("http://127.0.0.1:3030/addProduct", {
@@ -95,7 +95,7 @@ const SpendMoney = ({ handler }) => {
               id: loginData.userId,
               name: productName,
               category: category,
-              cost: cost,
+              cost: parseFloat(cost),
             }),
           })
             .then((response) => {
@@ -123,8 +123,10 @@ const SpendMoney = ({ handler }) => {
                 setLimit((prevValue) => {
                   return {
                     isLimitSet: true,
+                    startValue: prevValue.startValue,
                     limitValue: prevValue.limitValue - parseFloat(cost),
                     targetValue: prevValue.targetValue,
+                    expireTime: prevValue.expireTime,
                   };
                 });
 

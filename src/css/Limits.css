@@ -120,7 +120,13 @@
   cursor: pointer;
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 1063px) {
+  .limitBox {
+    padding: 10px;
+  }
+}
+
+@media only screen and (max-width: 811px) {
   #limits {
     padding-bottom: 20px;
   }
